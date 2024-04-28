@@ -7,5 +7,4 @@ data class UsersViewState(
     val isError: Boolean = false,
     val errorMessage: String = "",
     val users: List<User> = emptyList(),
-    val error: String? = null
 )

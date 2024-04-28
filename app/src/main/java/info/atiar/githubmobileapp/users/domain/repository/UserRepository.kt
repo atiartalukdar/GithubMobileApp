@@ -1,6 +1,7 @@
 package info.atiar.githubmobileapp.users.domain.repository
 
 import info.atiar.githubmobileapp.users.domain.model.User
+import info.atiar.githubmobileapp.user_profile.domain.model.UserProfile
 import info.atiar.githubmobileapp.utils.network_utils.ApiResult
 
 interface UserRepository {

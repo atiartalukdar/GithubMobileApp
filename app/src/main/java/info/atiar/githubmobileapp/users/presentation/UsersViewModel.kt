@@ -5,9 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import info.atiar.githubmobileapp.users.domain.repository.UserRepository
-import info.atiar.githubmobileapp.utils.Event
 import info.atiar.githubmobileapp.utils.network_utils.ApiResult
-import info.atiar.githubmobileapp.utils.sendEvent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -23,8 +21,7 @@ class UsersViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     init {
-        //getUsers()
-        getUsersSearch("defunkt")
+        getUsers()
     }
 
     @VisibleForTesting

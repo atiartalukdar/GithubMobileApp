@@ -5,4 +5,5 @@ object EndPoints {
 
     const val USERS = "users"
     const val USERS_SEARCH = "search/users"
+    const val USER_PROFILE = "users/{user}"
 }
