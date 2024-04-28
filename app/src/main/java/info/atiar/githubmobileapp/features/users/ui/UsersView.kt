@@ -62,7 +62,6 @@ fun UsersContent(
     searchQuery: (String) -> Unit
 ) {
     var query by remember { mutableStateOf("") }
-    var isFocused by remember { mutableStateOf(false) }
 
     LoadingDialog(isShowingDialog = state.isLoading)
     Scaffold(
