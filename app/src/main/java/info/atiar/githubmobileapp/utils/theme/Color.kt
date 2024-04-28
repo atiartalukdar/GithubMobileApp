@@ -1,4 +1,4 @@
-package info.atiar.githubmobileapp.ui.theme
+package info.atiar.githubmobileapp.utils.theme
 
 import androidx.compose.ui.graphics.Color
 
