@@ -1,4 +1,4 @@
-package info.atiar.githubmobileapp.user_profile.domain.model
+package info.atiar.githubmobileapp.features.user_profile.domain.model
 
 data class UserProfile(
     val name: String = "",

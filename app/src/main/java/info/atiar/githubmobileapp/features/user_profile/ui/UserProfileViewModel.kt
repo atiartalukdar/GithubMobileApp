@@ -1,11 +1,10 @@
-package info.atiar.githubmobileapp.user_profile.presentation
+package info.atiar.githubmobileapp.features.user_profile.ui
 
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import info.atiar.githubmobileapp.user_profile.domain.repository.UserProfileRepository
-import info.atiar.githubmobileapp.users.domain.repository.UserRepository
+import info.atiar.githubmobileapp.features.user_profile.domain.repository.UserProfileRepository
 import info.atiar.githubmobileapp.utils.network_utils.ApiResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

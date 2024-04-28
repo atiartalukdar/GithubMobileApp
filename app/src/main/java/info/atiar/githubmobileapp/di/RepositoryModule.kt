@@ -4,12 +4,12 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import info.atiar.githubmobileapp.user_profile.data.remote.UserProfileApi
-import info.atiar.githubmobileapp.user_profile.data.repositoryimpl.UserProfileRepositoryImpl
-import info.atiar.githubmobileapp.user_profile.domain.repository.UserProfileRepository
-import info.atiar.githubmobileapp.users.data.remote.UsersApi
-import info.atiar.githubmobileapp.users.data.repositoryimpl.UserRepositoryImpl
-import info.atiar.githubmobileapp.users.domain.repository.UserRepository
+import info.atiar.githubmobileapp.features.user_profile.data.remote.UserProfileApi
+import info.atiar.githubmobileapp.features.user_profile.data.repositoryimpl.UserProfileRepositoryImpl
+import info.atiar.githubmobileapp.features.user_profile.domain.repository.UserProfileRepository
+import info.atiar.githubmobileapp.features.users.data.remote.UsersApi
+import info.atiar.githubmobileapp.features.users.data.repositoryimpl.UserRepositoryImpl
+import info.atiar.githubmobileapp.features.users.domain.repository.UserRepository
 import javax.inject.Singleton
 
 @Module(includes = [RetrofitModule::class])
@@ -22,5 +22,6 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideUsersProfileRepository(userProfileApi: UserProfileApi): UserProfileRepository = UserProfileRepositoryImpl(userProfileApi)
+    fun provideUsersProfileRepository(userProfileApi: UserProfileApi): UserProfileRepository =
+        UserProfileRepositoryImpl(userProfileApi)
 }

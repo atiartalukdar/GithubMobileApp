@@ -1,4 +1,4 @@
-package info.atiar.githubmobileapp.user_profile.presentation
+package info.atiar.githubmobileapp.features.user_profile.ui
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding

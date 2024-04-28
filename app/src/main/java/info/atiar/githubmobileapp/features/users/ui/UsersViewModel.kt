@@ -1,11 +1,13 @@
-package info.atiar.githubmobileapp.users.presentation
+package info.atiar.githubmobileapp.features.users.ui
 
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import info.atiar.githubmobileapp.users.domain.repository.UserRepository
+import info.atiar.githubmobileapp.features.users.domain.repository.UserRepository
 import info.atiar.githubmobileapp.utils.network_utils.ApiResult
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -19,11 +21,17 @@ class UsersViewModel @Inject constructor(
 
     private val _state = MutableStateFlow(UsersViewState())
     val state = _state.asStateFlow()
-    fun onSearchTextChange(text: String) {
-        if (text.isNotEmpty()) {
-            getUsers()
-        } else {
-            getUsersSearch(text)
+    private var searchJob: Job? = null
+
+    fun searchWithDebounce(query: String) {
+        searchJob?.cancel() // Cancel previous search job if it exists
+        searchJob = viewModelScope.launch {
+            delay(500) // Debounce time
+            if (query.isNotEmpty()) {
+                getUsersSearch(query)
+            } else {
+                getUsers()
+            }
         }
     }
 

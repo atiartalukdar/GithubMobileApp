@@ -13,7 +13,7 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import dagger.hilt.android.AndroidEntryPoint
-import info.atiar.githubmobileapp.users.presentation.UsersView
+import info.atiar.githubmobileapp.features.users.ui.UsersView
 import info.atiar.githubmobileapp.utils.Event
 import info.atiar.githubmobileapp.utils.EventBus
 import info.atiar.githubmobileapp.utils.theme.GithubMobileAppTheme

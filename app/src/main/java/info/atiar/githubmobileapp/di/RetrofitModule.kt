@@ -4,11 +4,9 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import info.atiar.githubmobileapp.user_profile.data.remote.UserProfileApi
-import info.atiar.githubmobileapp.users.data.remote.UsersApi
+import info.atiar.githubmobileapp.features.user_profile.data.remote.UserProfileApi
+import info.atiar.githubmobileapp.features.users.data.remote.UsersApi
 import info.atiar.githubmobileapp.utils.EndPoints.BASE_URL
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -21,17 +19,9 @@ object RetrofitModule {
     @Provides
     @Singleton
     fun provideRetrofit(): Retrofit {
-        val logger = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC }
-
-        val httpClient = OkHttpClient
-            .Builder()
-            .addInterceptor(logger)
-            .build()
-
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
-            .client(httpClient)
             .build()
     }
 
