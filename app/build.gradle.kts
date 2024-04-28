@@ -76,9 +76,8 @@ dependencies {
 
     //Retrofit
     implementation(libs.retrofit)
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.converter.kotlinx.serialization)
-
+    implementation(libs.converter.gson)
+    
     //Coil
     implementation(libs.coil)
 

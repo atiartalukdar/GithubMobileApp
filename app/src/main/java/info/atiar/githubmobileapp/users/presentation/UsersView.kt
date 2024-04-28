@@ -48,7 +48,7 @@ fun UsersContent(
                 Row(Modifier.padding(8.dp)) {
                     AsyncImage(
                         model = user.image,
-                        contentDescription = user.userName,
+                        contentDescription = user.username,
                         modifier = Modifier
                             .clip(CircleShape)
                             .aspectRatio(1f),
@@ -57,7 +57,7 @@ fun UsersContent(
                     Spacer(modifier = Modifier.weight(1f))
 
                     Text(
-                        text = user.userName, style = MaterialTheme.typography.titleMedium
+                        text = user.username, style = MaterialTheme.typography.titleMedium
                     )
                 }
             }
