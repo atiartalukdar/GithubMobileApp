@@ -1,9 +1,8 @@
 package info.atiar.githubmobileapp.users.domain.repository
 
-import arrow.core.Either
-import info.atiar.githubmobileapp.users.domain.model.NetworkError
 import info.atiar.githubmobileapp.users.domain.model.User
+import info.atiar.githubmobileapp.utils.network_utils.ApiResult
 
 interface UserRepository {
-    suspend fun getUsers(): Either<NetworkError, List<User>>
+    suspend fun getUsers(): ApiResult<List<User>>
 }

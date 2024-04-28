@@ -4,23 +4,25 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import info.atiar.githubmobileapp.users.data.remote.UsersApi
-import info.atiar.githubmobileapp.utils.EndPoints.BASE_URL
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Singleton
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import javax.inject.Named
 
-@InstallIn(SingletonComponent::class)
 @Module
+@InstallIn(SingletonComponent::class)
 object AppModule {
-    @Singleton
+
     @Provides
-    fun provideUsersApi(): UsersApi {
-        return Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(UsersApi::class.java)
+    @Named("package_name")
+    fun providesPackageTitle(): String {
+        return "Github Demo"
     }
 
+    @Provides
+    @Named("main_dispatcher")
+    fun provideMainDispatcher(): CoroutineDispatcher = Dispatchers.Main
+
+    @Provides
+    @Named("io_dispatcher")
+    fun provideIODispatcher(): CoroutineDispatcher = Dispatchers.IO
 }

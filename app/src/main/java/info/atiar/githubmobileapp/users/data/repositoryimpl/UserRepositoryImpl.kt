@@ -1,19 +1,19 @@
 package info.atiar.githubmobileapp.users.data.repositoryimpl
 
-import arrow.core.Either
-import info.atiar.githubmobileapp.users.data.mapper.toNetworkError
 import info.atiar.githubmobileapp.users.data.remote.UsersApi
-import info.atiar.githubmobileapp.users.domain.model.NetworkError
 import info.atiar.githubmobileapp.users.domain.model.User
 import info.atiar.githubmobileapp.users.domain.repository.UserRepository
-import javax.inject.Inject
+import info.atiar.githubmobileapp.utils.network_utils.ApiResult
 
-class UserRepositoryImpl @Inject constructor(
+class UserRepositoryImpl(
     private val usersApi: UsersApi
 ) : UserRepository {
-    override suspend fun getUsers(): Either<NetworkError, List<User>> {
-        return Either.catch {
-            usersApi.getUsers()
-        }.mapLeft { it.toNetworkError() }
+    override suspend fun getUsers(): ApiResult<List<User>> {
+        return try {
+            val repos = usersApi.getUsers()
+            ApiResult.Success(repos)
+        } catch (e: Exception) {
+            ApiResult.Failure(e)
+        }
     }
 }

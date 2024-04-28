@@ -1,10 +1,12 @@
 package info.atiar.githubmobileapp.users.presentation
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import info.atiar.githubmobileapp.users.domain.repository.UserRepository
 import info.atiar.githubmobileapp.utils.Event
+import info.atiar.githubmobileapp.utils.network_utils.ApiResult
 import info.atiar.githubmobileapp.utils.sendEvent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -24,23 +26,27 @@ class UsersViewModel @Inject constructor(
         getUsers()
     }
 
-    private fun getUsers() {
+    @VisibleForTesting
+    fun getUsers() {
         viewModelScope.launch {
-            //Turning off Loading
             _state.update { it.copy(isLoading = true) }
 
-            //Getting Users
-            userRepository.getUsers()
-                .onRight { users ->
-                    _state.update { it.copy(users = users) }
-                }
-                .onLeft { error ->
-                    _state.update { it.copy(error = error.error.message) }
-                    sendEvent(Event.Toast(error.error.message))
+            when (val reposResult = userRepository.getUsers()) {
+                is ApiResult.Success -> {
+                    _state.value = UsersViewState(
+                        isLoading = false,
+                        users = reposResult.data
+                    )
                 }
 
-            //Turning off Loading
-            _state.update { it.copy(isLoading = false) }
+                is ApiResult.Failure -> {
+                    _state.value = UsersViewState(
+                        isLoading = false,
+                        isError = true,
+                        errorMessage = reposResult.exception.message ?: "An error occurred"
+                    )
+                }
+            }
         }
     }
 }
