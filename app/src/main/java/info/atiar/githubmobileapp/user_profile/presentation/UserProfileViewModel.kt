@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import info.atiar.githubmobileapp.user_profile.domain.repository.UserProfileRepository
-import info.atiar.githubmobileapp.users.domain.repository.UserRepository
 import info.atiar.githubmobileapp.utils.network_utils.ApiResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,8 +21,9 @@ class UserProfileViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     init {
-        // TODO call with userID
-        getUserProfile("defunkt")
+        //TODO call with userID
+        //getUserProfile("defunkt")
+        //getUserRepo("defunkt")
     }
 
     @VisibleForTesting
@@ -36,6 +36,30 @@ class UserProfileViewModel @Inject constructor(
                     _state.value = UserProfileViewState(
                         isLoading = false,
                         userProfile = reposResult.data
+                    )
+                }
+
+                is ApiResult.Failure -> {
+                    _state.value = UserProfileViewState(
+                        isLoading = false,
+                        isError = true,
+                        errorMessage = reposResult.exception.message ?: "An error occurred"
+                    )
+                }
+            }
+        }
+    }
+
+    @VisibleForTesting
+    fun getUserRepo(userId: String) {
+        viewModelScope.launch {
+            _state.update { it.copy(isLoading = true) }
+
+            when (val reposResult = userProfileRepository.getUserRepos(userId, isFork = false)) {
+                is ApiResult.Success -> {
+                    _state.value = UserProfileViewState(
+                        isLoading = false,
+                        userRepos = reposResult.data
                     )
                 }
 

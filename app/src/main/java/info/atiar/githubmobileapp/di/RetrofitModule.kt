@@ -6,7 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import info.atiar.githubmobileapp.user_profile.data.remote.UserProfileApi
 import info.atiar.githubmobileapp.users.data.remote.UsersApi
-import info.atiar.githubmobileapp.utils.EndPoints.BASE_URL
+import info.atiar.githubmobileapp.utils.Constants.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
