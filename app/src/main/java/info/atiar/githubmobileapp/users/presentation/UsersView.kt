@@ -1,10 +1,10 @@
 package info.atiar.githubmobileapp.users.presentation
 
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -13,6 +13,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -45,19 +46,21 @@ fun UsersContent(
             modifier = Modifier.padding(top = it.calculateTopPadding())
         ) {
             items(state.users) { user ->
-                Row(Modifier.padding(8.dp)) {
+                Row(
+                    Modifier.padding(12.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     AsyncImage(
-                        model = user.image,
-                        contentDescription = user.username,
+                        model = user.avatar_url,
+                        contentDescription = user.login,
                         modifier = Modifier
                             .clip(CircleShape)
-                            .aspectRatio(1f),
-                        contentScale = ContentScale.Crop,
+                            .height(60.dp)
+                            .width(80.dp),
+                        contentScale = ContentScale.Fit,
                     )
-                    Spacer(modifier = Modifier.weight(1f))
-
                     Text(
-                        text = user.username, style = MaterialTheme.typography.titleMedium
+                        text = user.login, style = MaterialTheme.typography.titleMedium
                     )
                 }
             }
