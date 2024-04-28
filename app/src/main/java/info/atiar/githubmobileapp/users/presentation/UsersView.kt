@@ -1,5 +1,6 @@
 package info.atiar.githubmobileapp.users.presentation
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -51,12 +52,13 @@ internal fun UsersView(
 }
 
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UsersContent(
     state: UsersViewState,
 ) {
-    var query by remember { mutableStateOf("") }
+    var query by remember { mutableStateOf(state.searchText.value) }
     var active by remember { mutableStateOf(false) }
 
     LoadingDialog(isShowingDialog = state.isLoading)
@@ -67,7 +69,7 @@ fun UsersContent(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(it.calculateTopPadding() + 10.dp)
+                .padding(12.dp)
 
         ) {
             Row(
@@ -76,9 +78,13 @@ fun UsersContent(
             ) {
                 DockedSearchBar(
                     query = query,
-                    onQueryChange = { query = it },
+                    onQueryChange = { newValue ->
+                        query = newValue
+                        state.searchText.value = newValue
+                    },
                     onSearch = { newQuery ->
                         println("Performing search on query: $newQuery")
+                        state.searchText.value = newQuery
                     },
                     active = active,
                     onActiveChange = { active = it },
@@ -103,11 +109,11 @@ fun UsersContent(
                                 }
                             }
                         }
-                    },
-
-                    ) {
-                        
+                    }
+                ) {
+                    // This is where the content of the search bar would go
                 }
+
             }
 
             LazyColumn {
