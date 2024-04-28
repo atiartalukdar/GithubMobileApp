@@ -13,6 +13,7 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import dagger.hilt.android.AndroidEntryPoint
+import info.atiar.githubmobileapp.user_profile.presentation.UserProfileView
 import info.atiar.githubmobileapp.users.presentation.UsersView
 import info.atiar.githubmobileapp.utils.Event
 import info.atiar.githubmobileapp.utils.EventBus
@@ -47,7 +48,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background,
                 ) {
-                    UsersView()
+                    //UsersView()
+                    UserProfileView()
                 }
             }
         }

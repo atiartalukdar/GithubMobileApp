@@ -55,9 +55,7 @@ class UsersViewModel @Inject constructor(
 
     init {
         getUsers()
-        //getUsersSearch("defunkt")
     }
-
 
     @VisibleForTesting
     fun getUsers() {

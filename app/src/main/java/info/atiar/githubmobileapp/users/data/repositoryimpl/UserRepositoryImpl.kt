@@ -2,6 +2,7 @@ package info.atiar.githubmobileapp.users.data.repositoryimpl
 
 import info.atiar.githubmobileapp.users.data.remote.UsersApi
 import info.atiar.githubmobileapp.users.domain.model.User
+import info.atiar.githubmobileapp.user_profile.domain.model.UserProfile
 import info.atiar.githubmobileapp.users.domain.repository.UserRepository
 import info.atiar.githubmobileapp.utils.network_utils.ApiResult
 

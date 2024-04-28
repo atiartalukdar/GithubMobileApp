@@ -1,10 +1,10 @@
 package info.atiar.githubmobileapp.di
 
-import android.util.Log
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import info.atiar.githubmobileapp.user_profile.data.remote.UserProfileApi
 import info.atiar.githubmobileapp.users.data.remote.UsersApi
 import info.atiar.githubmobileapp.utils.EndPoints.BASE_URL
 import okhttp3.OkHttpClient
@@ -37,7 +37,13 @@ object RetrofitModule {
 
     @Provides
     @Singleton
-    fun provideGithubService(retrofit: Retrofit): UsersApi {
+    fun provideUsersService(retrofit: Retrofit): UsersApi {
         return retrofit.create(UsersApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserProfileService(retrofit: Retrofit): UserProfileApi {
+        return retrofit.create(UserProfileApi::class.java)
     }
 }
