@@ -16,4 +16,12 @@ class UserRepositoryImpl(
             ApiResult.Failure(e)
         }
     }
+    override suspend fun getUsersSearch(queries: String): ApiResult<List<User>> {
+        return try {
+            val repos = usersApi.getUsersSearch(queries)
+            ApiResult.Success(repos.items)
+        } catch (e: Exception) {
+            ApiResult.Failure(e)
+        }
+    }
 }

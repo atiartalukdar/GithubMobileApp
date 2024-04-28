@@ -23,7 +23,8 @@ class UsersViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     init {
-        getUsers()
+        //getUsers()
+        getUsersSearch("defunkt")
     }
 
     @VisibleForTesting
@@ -32,6 +33,30 @@ class UsersViewModel @Inject constructor(
             _state.update { it.copy(isLoading = true) }
 
             when (val reposResult = userRepository.getUsers()) {
+                is ApiResult.Success -> {
+                    _state.value = UsersViewState(
+                        isLoading = false,
+                        users = reposResult.data
+                    )
+                }
+
+                is ApiResult.Failure -> {
+                    _state.value = UsersViewState(
+                        isLoading = false,
+                        isError = true,
+                        errorMessage = reposResult.exception.message ?: "An error occurred"
+                    )
+                }
+            }
+        }
+    }
+
+    @VisibleForTesting
+    fun getUsersSearch(queries: String) {
+        viewModelScope.launch {
+            _state.update { it.copy(isLoading = true) }
+
+            when (val reposResult = userRepository.getUsersSearch(queries)) {
                 is ApiResult.Success -> {
                     _state.value = UsersViewState(
                         isLoading = false,

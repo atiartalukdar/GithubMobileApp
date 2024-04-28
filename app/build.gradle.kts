@@ -77,6 +77,11 @@ dependencies {
     //Retrofit
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
+
+    //OkHTTP
+    implementation(platform(libs.okhttp.bom))
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.interceptor)
     
     //Coil
     implementation(libs.coil)
