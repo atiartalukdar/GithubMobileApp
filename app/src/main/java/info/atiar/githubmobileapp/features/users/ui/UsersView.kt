@@ -89,6 +89,8 @@ object UsersView {
                 modifier = Modifier
                     .fillMaxSize()
             ) {
+
+                //Search bar
                 Row(
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.Top,
@@ -121,9 +123,15 @@ object UsersView {
                     )
                 }
 
+                Text(
+                    text = if (query.isNotEmpty()) "Search Results" else "Users",
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
+                )
+
                 LazyColumn(
-                    modifier = Modifier
-                        .padding(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier.padding(horizontal = 16.dp)
                 ) {
                     items(state.users) { user ->
                         Box(
