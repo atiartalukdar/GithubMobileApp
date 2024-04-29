@@ -49,8 +49,8 @@ object UsersView {
         navController: NavController,
         viewModel: UsersViewModel = hiltViewModel()
     ) {
-        val state by viewModel.state.collectAsStateWithLifecycle()
 
+        val state by viewModel.state.collectAsStateWithLifecycle()
         UsersContent(
             state = state,
             searchQuery = { query ->

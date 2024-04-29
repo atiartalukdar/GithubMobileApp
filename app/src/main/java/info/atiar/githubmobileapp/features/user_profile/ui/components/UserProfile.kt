@@ -85,11 +85,13 @@ fun UserView(
                 contentScale = ContentScale.Crop,
             )
 
-            Text(
-                text = user.name,
-                style = MaterialTheme.typography.titleLarge,
-                color = Color.White
-            )
+            user.name?.let {
+                Text(
+                    text = it,
+                    style = MaterialTheme.typography.titleLarge,
+                    color = Color.White
+                )
+            }
 
             Text(
                 text = "@" + user.login,
