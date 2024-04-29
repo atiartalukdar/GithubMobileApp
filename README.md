@@ -31,3 +31,5 @@ The project has been developed in Native Android with the following tech stacks.
 ## Video: https://youtu.be/dyNMygyB-CI
 
 ## API Data Source: https://api.github.com/ 
+
+## Doc link: https://docs.google.com/document/d/1qM4Zm6zRtSwHqy22v_Su-mL086Ec5DpsCOQ7Lu2NN2U/edit?usp=sharing
