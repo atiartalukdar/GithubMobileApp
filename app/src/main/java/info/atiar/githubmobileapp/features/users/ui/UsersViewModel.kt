@@ -28,8 +28,8 @@ class UsersViewModel @Inject constructor(
 
     fun searchWithDebounce(query: String) {
         searchJob?.cancel() // Cancel previous search job if it exists
-        searchJob = viewModelScope.launch(dispatcher) {
-            delay(500) // Debounce time
+        searchJob = viewModelScope.launch {
+            delay(700) // Debounce time
             if (query.isNotEmpty()) {
                 getUsersSearch(query)
             } else {
@@ -38,7 +38,7 @@ class UsersViewModel @Inject constructor(
         }
     }
 
-    init {
+    fun fetchData() {
         getUsers()
     }
 

@@ -1,7 +1,7 @@
 package info.atiar.githubmobileapp.features.user_profile.domain.model
 
 data class UserProfile(
-    val name: String = "",
+    val name: String? = "",
     val login: String = "",
     val followers: Int = 0,
     val following: Int = 0,

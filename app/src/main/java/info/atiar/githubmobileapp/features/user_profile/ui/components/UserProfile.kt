@@ -58,7 +58,7 @@ fun UserView(
                     Icons.Default.ArrowBack,
                     contentDescription = "Back Button",
                     tint = Color.White,
-                    modifier = Modifier.clickable{
+                    modifier = Modifier.clickable {
                         onBackPressed()
                     }
                 )
@@ -67,7 +67,7 @@ fun UserView(
                     color = Color.White,
                     modifier = Modifier
                         .padding(start = 8.dp)
-                        .clickable{
+                        .clickable {
                             onBackPressed()
                         }
                 )
@@ -85,11 +85,13 @@ fun UserView(
                 contentScale = ContentScale.Crop,
             )
 
-            Text(
-                text = user.name,
-                style = MaterialTheme.typography.titleLarge,
-                color = Color.White
-            )
+            user.name?.let {
+                Text(
+                    text = it,
+                    style = MaterialTheme.typography.titleLarge,
+                    color = Color.White
+                )
+            }
 
             Text(
                 text = "@" + user.login,
@@ -103,16 +105,19 @@ fun UserView(
                 horizontalArrangement = Arrangement.Center,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 8.dp)
             ) {
                 Icon(
                     painterResource(id = R.drawable.followers),
-                    contentDescription = "Back Button",
+                    contentDescription = "followers",
+                    modifier = Modifier
+                        .width(20.dp)
+                        .height(20.dp),
                     tint = Color.White
                 )
                 Text(
                     text = "${user.followers} Followers",
                     color = Color.White,
+                    style = MaterialTheme.typography.bodySmall,
                     modifier = Modifier.padding(start = 8.dp)
                 )
 
@@ -120,12 +125,16 @@ fun UserView(
 
                 Icon(
                     painterResource(id = R.drawable.followers),
-                    contentDescription = "Back Button",
+                    contentDescription = "Following",
+                    modifier = Modifier
+                        .width(20.dp)
+                        .height(20.dp),
                     tint = Color.White,
                 )
                 Text(
                     text = "${user.following} Following",
                     color = Color.White,
+                    style = MaterialTheme.typography.bodySmall,
                     modifier = Modifier.padding(start = 8.dp)
                 )
             }
@@ -154,7 +163,7 @@ fun PreviewUserView() {
                     .padding(it),
                 contentAlignment = Alignment.Center,
             ) {
-                UserView(userProfile){
+                UserView(userProfile) {
 
                 }
             }
