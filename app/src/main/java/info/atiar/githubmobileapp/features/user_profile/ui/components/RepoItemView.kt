@@ -37,12 +37,13 @@ fun RepoItemView(
 ) {
     Box(
         modifier = Modifier
-            .fillMaxWidth()
-            .background(Color(0xFFDFF3FF), shape = RoundedCornerShape(8.dp))
-            .padding(12.dp)
             .clickable() {
                 onItemClick(userRepo.html_url)
             }
+            .fillMaxWidth()
+            .background(Color(0xFFDFF3FF), shape = RoundedCornerShape(8.dp))
+            .padding(12.dp)
+
     ) {
         Column(
             verticalArrangement = Arrangement.Top,
@@ -118,23 +119,24 @@ fun RepoItemView(
 
                 Spacer(modifier = Modifier.padding(horizontal = 10.dp))
 
-                Icon(
-                    painterResource(id = R.drawable.programing_language),
-                    contentDescription = "Programing Language",
-                    tint = Color.Black,
-                    modifier = Modifier
-                        .height(20.dp)
-                        .width(20.dp)
-                        .padding(2.dp) //to adjust the feeling of other UI
-
-                )
 
                 userRepo.language?.let {
+                    Icon(
+                        painterResource(id = R.drawable.programing_language),
+                        contentDescription = "Programing Language",
+                        tint = Color.Black,
+                        modifier = Modifier
+                            .height(20.dp)
+                            .width(20.dp)
+                            .padding(2.dp) //to adjust the feeling of other UI
+
+                    )
+
                     Text(
                         text = it,
                         color = Color.Black,
                         modifier = Modifier
-                            .padding(start = 8.dp),
+                            .padding(start = 6.dp),
                         maxLines = 1,
                         style = MaterialTheme.typography.bodySmall,
                         overflow = TextOverflow.Ellipsis,

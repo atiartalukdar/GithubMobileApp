@@ -1,8 +1,6 @@
 package info.atiar.githubmobileapp.features.user_profile.ui
 
 import android.annotation.SuppressLint
-import android.net.Uri
-import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -34,6 +32,7 @@ import info.atiar.githubmobileapp.features.user_profile.ui.components.RepoItemVi
 import info.atiar.githubmobileapp.features.user_profile.ui.components.UserView
 import info.atiar.githubmobileapp.user_profile.domain.model.UserRepo
 import info.atiar.githubmobileapp.utils.common_component.LoadingDialog
+import info.atiar.githubmobileapp.utils.common_component.tabbedWebView
 
 
 object UserProfileView {
@@ -67,7 +66,7 @@ object UserProfileView {
 
     ) {
         LoadingDialog(isShowingDialog = state.isLoading)
-        val ctx = LocalContext.current
+        val context = LocalContext.current
 
         Scaffold(
             modifier = Modifier.fillMaxSize(),
@@ -94,9 +93,7 @@ object UserProfileView {
                     items(state.userRepos) {
                         RepoItemView(userRepo = it) { repoUrl ->
                             //TODO: Bring the web-view as Util function
-                            val intent = CustomTabsIntent.Builder()
-                                .build()
-                            intent.launchUrl(ctx, Uri.parse(repoUrl))
+                            tabbedWebView(repoUrl, context)
                         }
                     }
                 }
