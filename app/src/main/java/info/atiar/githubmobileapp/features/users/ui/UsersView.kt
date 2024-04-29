@@ -22,6 +22,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -49,6 +50,14 @@ object UsersView {
         navController: NavController,
         viewModel: UsersViewModel = hiltViewModel()
     ) {
+
+        var shouldFetchData by remember { mutableStateOf(true) }
+        LaunchedEffect(Unit) {
+            if (shouldFetchData) {
+                viewModel.fetchData()
+                shouldFetchData = false
+            }
+        }
 
         val state by viewModel.state.collectAsStateWithLifecycle()
         UsersContent(

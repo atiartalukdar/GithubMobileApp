@@ -48,7 +48,7 @@ object UserProfileView {
         var shouldFetchData by remember { mutableStateOf(true) }
         LaunchedEffect(Unit) {
             if (shouldFetchData) {
-                viewModel.fetchUserData(userId)
+                viewModel.fetchData(userId)
                 shouldFetchData = false
             }
         }

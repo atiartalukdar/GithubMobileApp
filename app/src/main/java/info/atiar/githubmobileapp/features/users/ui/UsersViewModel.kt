@@ -35,7 +35,7 @@ class UsersViewModel @Inject constructor(
         }
     }
 
-    init {
+    fun fetchData() {
         getUsers()
     }
 

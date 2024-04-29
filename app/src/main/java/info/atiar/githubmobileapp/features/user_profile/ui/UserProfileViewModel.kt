@@ -20,7 +20,7 @@ class UserProfileViewModel @Inject constructor(
     private val _state = MutableStateFlow(UserProfileViewState())
     val state = _state.asStateFlow()
 
-    fun fetchUserData(userId: String) {
+    fun fetchData(userId: String) {
         getUserProfile(userId)
         getUserRepo(userId)
     }
