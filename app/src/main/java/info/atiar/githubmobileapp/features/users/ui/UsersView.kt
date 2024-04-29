@@ -124,7 +124,7 @@ object UsersView {
                 }
 
                 Text(
-                    text = if (query.isNotEmpty()) "Search Results" else "Users",
+                    text = "${if (query.isNotEmpty()) "Search Results" else "Users"} (${state.users.size})",
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
                 )

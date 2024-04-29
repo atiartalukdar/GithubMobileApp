@@ -81,7 +81,7 @@ object UserProfileView {
                 }
 
                 Text(
-                    text = "Repositories",
+                    text = "Repositories (${state.userRepos.size})",
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
                 )
