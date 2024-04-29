@@ -1,8 +1,8 @@
 package info.atiar.githubmobileapp.features.users.ui
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,7 +34,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import info.atiar.githubmobileapp.features.user_profile.ui.UserProfileView
 import info.atiar.githubmobileapp.features.users.ui.components.RightCrossIcon
 import info.atiar.githubmobileapp.features.users.ui.components.SearchIcon
 import info.atiar.githubmobileapp.utils.common_component.LoadingDialog
@@ -44,21 +46,29 @@ object UsersView {
 
     @Composable
     internal fun View(
+        navController: NavController,
         viewModel: UsersViewModel = hiltViewModel()
     ) {
         val state by viewModel.state.collectAsStateWithLifecycle()
 
-        UsersContent(state = state) {
-            Log.e("Atiar, search text", it)
-            viewModel.searchWithDebounce(it)
-        }
+        UsersContent(
+            state = state,
+            searchQuery = {
+                viewModel.searchWithDebounce(it)
+            },
+            onItemClick = {
+                navController.navigate("${UserProfileView.route}/$it")
+            }
+        )
     }
 
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     @Composable
     fun UsersContent(
         state: UsersViewState,
-        searchQuery: (String) -> Unit
+        searchQuery: (String) -> Unit,
+        onItemClick: (String) -> Unit
+
     ) {
         var query by remember { mutableStateOf("") }
 
@@ -116,6 +126,9 @@ object UsersView {
                                     color = Color(0xFFDFF3FF),
                                     shape = RoundedCornerShape(8.dp)
                                 )
+                                .clickable {
+                                    onItemClick(user.login)
+                                }
                         ) {
                             Row(
                                 verticalAlignment = Alignment.CenterVertically

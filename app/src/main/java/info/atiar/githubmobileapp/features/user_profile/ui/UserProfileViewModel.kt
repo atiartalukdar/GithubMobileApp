@@ -14,17 +14,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class UserProfileViewModel @Inject constructor(
-    private val userProfileRepository: UserProfileRepository
+    private val userProfileRepository: UserProfileRepository,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(UserProfileViewState())
     val state = _state.asStateFlow()
-
-    init {
-        // TODO call with userID
-        getUserProfile("atiartalukdar")
-        getUserRepo("atiartalukdar")
-    }
 
     @VisibleForTesting
     fun getUserProfile(userId: String) {
