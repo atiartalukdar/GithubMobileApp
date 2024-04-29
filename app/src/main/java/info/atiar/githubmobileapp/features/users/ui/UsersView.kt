@@ -53,11 +53,11 @@ object UsersView {
 
         UsersContent(
             state = state,
-            searchQuery = {
-                viewModel.searchWithDebounce(it)
+            searchQuery = { query ->
+                viewModel.searchWithDebounce(query)
             },
-            onItemClick = {
-                navController.navigate("${UserProfileView.route}/$it")
+            onItemClick = { data ->
+                navController.navigate("${UserProfileView.route}/$data")
             }
         )
     }

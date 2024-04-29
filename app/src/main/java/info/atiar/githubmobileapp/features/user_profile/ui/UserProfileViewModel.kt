@@ -20,6 +20,11 @@ class UserProfileViewModel @Inject constructor(
     private val _state = MutableStateFlow(UserProfileViewState())
     val state = _state.asStateFlow()
 
+    fun fetchUserData(userId: String) {
+        getUserProfile(userId)
+        getUserRepo(userId)
+    }
+
     @VisibleForTesting
     fun getUserProfile(userId: String) {
         viewModelScope.launch {
