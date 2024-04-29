@@ -1,7 +1,7 @@
-package info.atiar.githubmobileapp.users.data.remote
+package info.atiar.githubmobileapp.features.users.data.remote
 
-import info.atiar.githubmobileapp.users.domain.model.User
-import info.atiar.githubmobileapp.users.domain.model.UserSearch
+import info.atiar.githubmobileapp.features.users.domain.model.User
+import info.atiar.githubmobileapp.features.users.domain.model.UserSearch
 import retrofit2.http.GET
 import retrofit2.http.Query
 

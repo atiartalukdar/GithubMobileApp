@@ -1,18 +1,15 @@
-package info.atiar.githubmobileapp.users.presentation
+package info.atiar.githubmobileapp.features.users.ui
 
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import info.atiar.githubmobileapp.users.domain.repository.UserRepository
+import info.atiar.githubmobileapp.features.users.domain.repository.UserRepository
 import info.atiar.githubmobileapp.utils.network_utils.ApiResult
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -24,33 +21,18 @@ class UsersViewModel @Inject constructor(
 
     private val _state = MutableStateFlow(UsersViewState())
     val state = _state.asStateFlow()
+    private var searchJob: Job? = null
 
-    private val _searchText = MutableStateFlow("")
-    val searchText = _searchText.asStateFlow()
-
-    private val _isSearching = MutableStateFlow(false)
-    val isSearching = _isSearching.asStateFlow()
-
-    private val _users = flowOf(state.value.users)
-
-    val users = _searchText
-        .onEach { _isSearching.update { true } }
-        .combine(_users) { text, users ->
-            if (text.isBlank()) {
-                users
+    fun searchWithDebounce(query: String) {
+        searchJob?.cancel() // Cancel previous search job if it exists
+        searchJob = viewModelScope.launch {
+            delay(500) // Debounce time
+            if (query.isNotEmpty()) {
+                getUsersSearch(query)
             } else {
-                getUsersSearch(text)
+                getUsers()
             }
         }
-        .onEach { _isSearching.update { false } }
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
-            state.value.users
-        )
-
-    fun onSearchTextChange(text: String) {
-        _searchText.value = text
     }
 
     init {

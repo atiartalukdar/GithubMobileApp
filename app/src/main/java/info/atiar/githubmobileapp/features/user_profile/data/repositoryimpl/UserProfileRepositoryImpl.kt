@@ -1,4 +1,4 @@
-package info.atiar.githubmobileapp.user_profile.data.repositoryimpl
+package info.atiar.githubmobileapp.features.user_profile.data.repositoryimpl
 
 import info.atiar.githubmobileapp.features.user_profile.data.remote.UserProfileApi
 import info.atiar.githubmobileapp.features.user_profile.domain.model.UserProfile
