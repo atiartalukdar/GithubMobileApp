@@ -15,7 +15,7 @@ object AppModule {
     @Provides
     @Named("package_name")
     fun providesPackageTitle(): String {
-        return "Github Demo"
+        return "Github Mobile App"
     }
 
     @Provides
