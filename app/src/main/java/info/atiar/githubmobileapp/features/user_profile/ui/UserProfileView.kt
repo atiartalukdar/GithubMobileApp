@@ -1,9 +1,8 @@
 package info.atiar.githubmobileapp.features.user_profile.ui
 
 import android.annotation.SuppressLint
-import android.util.Log
-import android.webkit.WebChromeClient
-import android.webkit.WebView
+import android.net.Uri
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,15 +16,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import info.atiar.githubmobileapp.features.user_profile.domain.model.UserProfile
@@ -33,6 +29,7 @@ import info.atiar.githubmobileapp.features.user_profile.ui.components.RepoItemVi
 import info.atiar.githubmobileapp.features.user_profile.ui.components.UserView
 import info.atiar.githubmobileapp.user_profile.domain.model.UserRepo
 import info.atiar.githubmobileapp.utils.common_component.LoadingDialog
+
 
 @Composable
 internal fun UserProfileView(
@@ -47,9 +44,9 @@ internal fun UserProfileView(
 fun UserProfileContent(
     state: UserProfileViewState
 ) {
-    var url by remember { mutableStateOf("") }
-    var shouldOpenWebview by remember { mutableStateOf(false) }
     LoadingDialog(isShowingDialog = state.isLoading)
+    val ctx = LocalContext.current
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
     ) {
@@ -72,38 +69,15 @@ fun UserProfileContent(
             ) {
                 items(state.userRepos) {
                     RepoItemView(userRepo = it) { repoUrl ->
-                        Log.e("Git Repo Link:", repoUrl)
-                        url = repoUrl
-                        shouldOpenWebview = true
+                        //TODO: Bring the web-view as Util function
+                        val intent = CustomTabsIntent.Builder()
+                            .build()
+                        intent.launchUrl(ctx, Uri.parse(repoUrl))
                     }
                 }
             }
         }
     }
-
-    if (shouldOpenWebview) {
-        InAppWebView(url = url) {
-            if (it) {
-                shouldOpenWebview = false
-            }
-        }
-    }
-}
-
-@SuppressLint("SetJavaScriptEnabled")
-@Composable
-fun InAppWebView(url: String, onReleaseWebview: (Boolean) -> Unit) {
-    AndroidView(
-        factory = ::WebView,
-        update = { webView ->
-            webView.webChromeClient = WebChromeClient()
-            webView.settings.javaScriptEnabled = true
-            webView.loadUrl(url)
-        },
-        onRelease = {
-            onReleaseWebview(true)
-        }
-    )
 }
 
 @Preview
