@@ -6,29 +6,26 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import info.atiar.githubmobileapp.features.user_profile.domain.repository.UserProfileRepository
 import info.atiar.githubmobileapp.utils.network_utils.ApiResult
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import javax.inject.Named
 
 @HiltViewModel
 class UserProfileViewModel @Inject constructor(
+    @Named("main_dispatcher") private val dispatcher: CoroutineDispatcher,
     private val userProfileRepository: UserProfileRepository
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(UserProfileViewState())
     val state = _state.asStateFlow()
 
-    init {
-        // TODO call with userID
-        getUserProfile("atiartalukdar")
-        getUserRepo("atiartalukdar")
-    }
-
     @VisibleForTesting
     fun getUserProfile(userId: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcher) {
             _state.update { it.copy(isLoading = true) }
 
             when (val reposResult = userProfileRepository.getUserProfile(userId)) {
@@ -52,7 +49,7 @@ class UserProfileViewModel @Inject constructor(
 
     @VisibleForTesting
     fun getUserRepo(userId: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcher) {
             _state.update { it.copy(isLoading = true) }
 
             when (val reposResult = userProfileRepository.getUserRepos(userId, isFork = false)) {

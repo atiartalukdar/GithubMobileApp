@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import info.atiar.githubmobileapp.features.users.domain.repository.UserRepository
 import info.atiar.githubmobileapp.utils.network_utils.ApiResult
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,9 +14,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import javax.inject.Named
 
 @HiltViewModel
 class UsersViewModel @Inject constructor(
+    @Named("main_dispatcher") private val dispatcher: CoroutineDispatcher,
     private val userRepository: UserRepository
 ) : ViewModel() {
 
@@ -25,7 +28,7 @@ class UsersViewModel @Inject constructor(
 
     fun searchWithDebounce(query: String) {
         searchJob?.cancel() // Cancel previous search job if it exists
-        searchJob = viewModelScope.launch {
+        searchJob = viewModelScope.launch(dispatcher) {
             delay(500) // Debounce time
             if (query.isNotEmpty()) {
                 getUsersSearch(query)
@@ -41,7 +44,7 @@ class UsersViewModel @Inject constructor(
 
     @VisibleForTesting
     fun getUsers() {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcher) {
             _state.update { it.copy(isLoading = true) }
 
             when (val reposResult = userRepository.getUsers()) {
@@ -65,7 +68,7 @@ class UsersViewModel @Inject constructor(
 
     @VisibleForTesting
     fun getUsersSearch(queries: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcher) {
             _state.update { it.copy(isLoading = true) }
             when (val reposResult = userRepository.getUsersSearch(queries)) {
                 is ApiResult.Success -> {

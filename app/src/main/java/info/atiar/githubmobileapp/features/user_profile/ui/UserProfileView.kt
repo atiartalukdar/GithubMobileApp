@@ -24,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import info.atiar.githubmobileapp.features.user_profile.domain.model.UserProfile
 import info.atiar.githubmobileapp.features.user_profile.ui.components.RepoItemView
 import info.atiar.githubmobileapp.features.user_profile.ui.components.UserView
@@ -31,20 +32,29 @@ import info.atiar.githubmobileapp.user_profile.domain.model.UserRepo
 import info.atiar.githubmobileapp.utils.common_component.LoadingDialog
 
 
-object UserProfileView{
+object UserProfileView {
     val route: String = javaClass.simpleName
+
     @Composable
     internal fun View(
+        navController: NavController,
+        userId: String,
         viewModel: UserProfileViewModel = hiltViewModel()
     ) {
+        viewModel.getUserProfile(userId)
+        viewModel.getUserRepo(userId)
         val state by viewModel.state.collectAsStateWithLifecycle()
-        UserProfileContent(state = state)
+        UserProfileContent(state = state) {
+            navController.popBackStack()
+        }
     }
 
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     @Composable
     fun UserProfileContent(
-        state: UserProfileViewState
+        state: UserProfileViewState,
+        onBackPressed: () -> Unit
+
     ) {
         LoadingDialog(isShowingDialog = state.isLoading)
         val ctx = LocalContext.current
@@ -57,7 +67,9 @@ object UserProfileView{
                     .fillMaxSize(),
                 verticalArrangement = Arrangement.Top
             ) {
-                UserView(state.userProfile)
+                UserView(state.userProfile) {
+                    onBackPressed()
+                }
 
                 Text(
                     text = "Repositories",
@@ -100,7 +112,7 @@ fun PreviewUserProfile() {
         fork = false,
         language = "Kotlin",
         description = "MVVM, Clear architecture, SOLID principal, Dagger hilt, JetPack compose, Retrofit",
-        stargazers_count = 1000000
+        stargazers_count = 10000
     )
 
     val usersRepos = listOf(usersRepo, usersRepo, usersRepo)
@@ -116,7 +128,9 @@ fun PreviewUserProfile() {
             ) {
                 UserProfileView.UserProfileContent(
                     UserProfileViewState(userProfile = userProfile, userRepos = usersRepos)
-                )
+                ) {
+
+                }
             }
         }
     )

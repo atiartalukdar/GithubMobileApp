@@ -1,6 +1,7 @@
 package info.atiar.githubmobileapp.features.user_profile.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,7 +34,8 @@ import info.atiar.githubmobileapp.features.user_profile.domain.model.UserProfile
 
 @Composable
 fun UserView(
-    user: UserProfile
+    user: UserProfile,
+    onBackPressed: () -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -55,12 +57,19 @@ fun UserView(
                 Icon(
                     Icons.Default.ArrowBack,
                     contentDescription = "Back Button",
-                    tint = Color.White
+                    tint = Color.White,
+                    modifier = Modifier.clickable{
+                        onBackPressed()
+                    }
                 )
                 Text(
                     text = "Back",
                     color = Color.White,
-                    modifier = Modifier.padding(start = 8.dp)
+                    modifier = Modifier
+                        .padding(start = 8.dp)
+                        .clickable{
+                            onBackPressed()
+                        }
                 )
             }
 
@@ -145,7 +154,9 @@ fun PreviewUserView() {
                     .padding(it),
                 contentAlignment = Alignment.Center,
             ) {
-                UserView(userProfile)
+                UserView(userProfile){
+
+                }
             }
         }
     )
