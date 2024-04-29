@@ -47,8 +47,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background,
                 ) {
-                    //UsersView()
-                    UserProfileView()
+                    //UsersView.View()
+                    UserProfileView.View()
                 }
             }
         }

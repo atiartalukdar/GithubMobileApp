@@ -31,48 +31,51 @@ import info.atiar.githubmobileapp.user_profile.domain.model.UserRepo
 import info.atiar.githubmobileapp.utils.common_component.LoadingDialog
 
 
-@Composable
-internal fun UserProfileView(
-    viewModel: UserProfileViewModel = hiltViewModel()
-) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
-    UserProfileContent(state = state)
-}
-
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@Composable
-fun UserProfileContent(
-    state: UserProfileViewState
-) {
-    LoadingDialog(isShowingDialog = state.isLoading)
-    val ctx = LocalContext.current
-
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
+object UserProfileView{
+    val route: String = javaClass.simpleName
+    @Composable
+    internal fun View(
+        viewModel: UserProfileViewModel = hiltViewModel()
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.Top
+        val state by viewModel.state.collectAsStateWithLifecycle()
+        UserProfileContent(state = state)
+    }
+
+    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+    @Composable
+    fun UserProfileContent(
+        state: UserProfileViewState
+    ) {
+        LoadingDialog(isShowingDialog = state.isLoading)
+        val ctx = LocalContext.current
+
+        Scaffold(
+            modifier = Modifier.fillMaxSize(),
         ) {
-            UserView(state.userProfile)
-
-            Text(
-                text = "Repositories",
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
-            )
-
-            LazyColumn(
-                modifier = Modifier.padding(horizontal = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+            Column(
+                modifier = Modifier
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.Top
             ) {
-                items(state.userRepos) {
-                    RepoItemView(userRepo = it) { repoUrl ->
-                        //TODO: Bring the web-view as Util function
-                        val intent = CustomTabsIntent.Builder()
-                            .build()
-                        intent.launchUrl(ctx, Uri.parse(repoUrl))
+                UserView(state.userProfile)
+
+                Text(
+                    text = "Repositories",
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
+                )
+
+                LazyColumn(
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    items(state.userRepos) {
+                        RepoItemView(userRepo = it) { repoUrl ->
+                            //TODO: Bring the web-view as Util function
+                            val intent = CustomTabsIntent.Builder()
+                                .build()
+                            intent.launchUrl(ctx, Uri.parse(repoUrl))
+                        }
                     }
                 }
             }
@@ -111,7 +114,7 @@ fun PreviewUserProfile() {
                     .padding(it),
                 contentAlignment = Alignment.Center,
             ) {
-                UserProfileContent(
+                UserProfileView.UserProfileContent(
                     UserProfileViewState(userProfile = userProfile, userRepos = usersRepos)
                 )
             }
