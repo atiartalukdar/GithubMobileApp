@@ -6,7 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import info.atiar.githubmobileapp.features.user_profile.data.remote.UserProfileApi
 import info.atiar.githubmobileapp.features.users.data.remote.UsersApi
-import info.atiar.githubmobileapp.utils.EndPoints.BASE_URL
+import info.atiar.githubmobileapp.utils.Constants.BASE_URL
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton

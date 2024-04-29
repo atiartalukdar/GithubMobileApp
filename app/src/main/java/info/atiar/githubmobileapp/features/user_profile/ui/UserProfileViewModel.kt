@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import info.atiar.githubmobileapp.features.user_profile.domain.repository.UserProfileRepository
-import info.atiar.githubmobileapp.user_profile.domain.repository.UserProfileRepository
 import info.atiar.githubmobileapp.utils.network_utils.ApiResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,7 +22,8 @@ class UserProfileViewModel @Inject constructor(
 
     init {
         // TODO call with userID
-        getUserProfile("defunkt")
+        getUserProfile("atiartalukdar")
+        getUserRepo("atiartalukdar")
     }
 
     @VisibleForTesting
@@ -57,10 +57,7 @@ class UserProfileViewModel @Inject constructor(
 
             when (val reposResult = userProfileRepository.getUserRepos(userId, isFork = false)) {
                 is ApiResult.Success -> {
-                    _state.value = UserProfileViewState(
-                        isLoading = false,
-                        userRepos = reposResult.data
-                    )
+                    _state.update { it.copy(userRepos = reposResult.data) }
                 }
 
                 is ApiResult.Failure -> {
